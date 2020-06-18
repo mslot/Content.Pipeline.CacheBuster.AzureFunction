@@ -9,7 +9,7 @@ namespace Content.Pipeline.CacheBuster.AzureFunction
     {
         [FunctionName("CacheBusterFunction")]
         [return: ServiceBus("notifier-topic", Connection = "Servicebus:ServicebusConnectionString")]
-        public async Task<string> Run(
+        public Task<string> Run(
         [ServiceBusTrigger("cachebuster-topic","CacheBusterSubscription", Connection = "Servicebus:ServicebusConnectionString")]
         string message,
         Int32 deliveryCount,
@@ -22,7 +22,7 @@ namespace Content.Pipeline.CacheBuster.AzureFunction
             log.LogInformation($"DeliveryCount={deliveryCount}");
             log.LogInformation($"MessageId={messageId}");
 
-            return message;
+            return Task.FromResult(message);
         }
     }
 }
